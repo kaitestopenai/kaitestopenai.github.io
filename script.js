@@ -24,6 +24,6 @@ async function call() {
     const myJson = await response.json(); //extract JSON from the http response
     // do something with myJson
     alert("Response achieved");
-    console.log(myJson);
-    console.log(JSON.stringify(myJson));
+    alert(myJson);
+    alert(JSON.stringify(myJson));
 }
