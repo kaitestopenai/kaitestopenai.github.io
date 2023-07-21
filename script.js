@@ -7,8 +7,8 @@ async function call() {
         body: {
             model: "gpt-3.5-turbo",
             messages: [
-                { "role": "system", "content": "You are a helpful assistant that helps me write texts at a specific readability level" },
-                { "role": "user", "content": prompt }
+                { role: "system", content: "You are a helpful assistant that helps me write texts at a specific readability level" },
+                { role: "user", content: prompt }
             ],
             temperature: 0.5,
             max_tokens: 440,
