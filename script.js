@@ -1,6 +1,6 @@
 async function call() {
     var prompt = "Generate 4 passages about a given topic. The information should be unique, interesting, and interactive. Each passage should be a minimum of 75 words. The passages should stand alone and must be numbered. The text must be at grade level 12 on the topic of horses";
-    var key1 = "sk-u3BBPzUvuKbWLVh5KofVT3Blbf";
+    var key1 = "sk-u3BBPzUvuKbWLVh5KofVT3Blbk";
     var key2 = "FJbuJfKqkTCB9QGa2Qhoun";
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
