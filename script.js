@@ -4,7 +4,7 @@ async function call() {
     var key2 = "FJbuJfKqkTCB9QGa2Qhoun";
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
-        body: {
+        body: JSON.stringify({
             model: "gpt-3.5-turbo",
             messages: [
                 { role: "system", content: "You are a helpful assistant that helps me write texts at a specific readability level" },
@@ -16,7 +16,7 @@ async function call() {
             frequency_penalty: 0.0,
             presence_penalty: 0.0
 
-        }, // string or object
+        }), // string or object
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + key1 + key2
