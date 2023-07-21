@@ -18,7 +18,7 @@ async function call() {
         }, // string or object
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer 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'
+            'Authorization': 'Bearer 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'
         }
     });
     const myJson = await response.json(); //extract JSON from the http response
