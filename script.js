@@ -10,7 +10,6 @@ async function call() {
                 { role: "system", content: "You are a helpful assistant that helps me write texts at a specific readability level" },
                 { role: "user", content: prompt }
             ],
-            prompt: prompt,
             temperature: 1,
             max_tokens: 380,
             top_p: 1.0,
