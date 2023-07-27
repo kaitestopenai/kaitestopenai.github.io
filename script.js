@@ -6,6 +6,10 @@ async function call() {
         method: 'POST',
         body: JSON.stringify({
             model: "davinci:ft-sawyer-laboratories:new-test-2023-06-23-15-15-58",
+            messages: [
+                { role: "system", content: "You are a helpful assistant that helps me write texts at a specific readability level" },
+                { role: "user", content: prompt }
+            ],
             prompt: prompt,
             temperature: 1,
             max_tokens: 380,
