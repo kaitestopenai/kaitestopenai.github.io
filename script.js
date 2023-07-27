@@ -5,16 +5,14 @@ async function call() {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         body: JSON.stringify({
-            model: "gpt-3.5-turbo",
-            messages: [
-                { role: "system", content: "You are a helpful assistant that helps me write texts at a specific readability level" },
-                { role: "user", content: prompt }
-            ],
-            temperature: 0.5,
-            max_tokens: 440,
+            model: "davinci:ft-sawyer-laboratories:new-test-2023-06-23-15-15-58",
+            prompt: prompt,
+            temperature: 1,
+            max_tokens: 380,
             top_p: 1.0,
             frequency_penalty: 0.0,
-            presence_penalty: 0.0
+            presence_penalty: 0.0,
+            stop:["END"]
 
         }), // string or object
         headers: {
