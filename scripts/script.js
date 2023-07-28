@@ -254,7 +254,7 @@ async function generate_passages(topic, grade, passage=false) {
 			return text;
 		}
 		else{
-			await generate_passages(topic, 12);
+			return await generate_passages(topic, 12);
 		}
 		
 	}
@@ -292,7 +292,7 @@ async function generate_passages(topic, grade, passage=false) {
 			return text;
 		}
 		else{
-			await generate_passages(topic, 8);
+			return await generate_passages(topic, 8);
 		}
 	}
 			
