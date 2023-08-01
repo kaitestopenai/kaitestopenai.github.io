@@ -345,7 +345,7 @@ function FKRA_calculator(passage, grade) {
 	// keep data if it is within acceptable bounds
 	if(grade == 12)
 	{
-		if((Math.round(fkra * 10) / 10) < 13 && (Math.round(fkra * 10) / 10) > 12  && number_words > 280 && number_words < 320 ){
+		if((Math.round(fkra * 10) / 10) < 13 && (Math.round(fkra * 10) / 10) > 11.5  && number_words > 280 && number_words < 320 ){
 			fkra_data_12 = {sentences:number_sentences, words: number_words, syllables:number_syllables, score: fkra};
 		}
 	}
