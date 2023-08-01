@@ -89,7 +89,7 @@ function reset()
 	$("#syllables_12").html("");
 	$("#api_calls_12").html("");
 	
-	$("#LoadingLabel").val("");
+	$("#LoadingLabel").html("");
 		
 	
 }
@@ -115,21 +115,21 @@ async function begin()
 	
 	if(type == "Topic"){
 
-		$("#LoadingLabel").val("Loading 12th Grade Passages...");
+		$("#LoadingLabel").html("Loading 12th Grade Passages...");
 		
 		// make call to get 12th grade level passages
 		passage_set1 = await generate_passages(topic, 12);
 
 		updatePage(12, passage_set1);
 		
-		$("#LoadingLabel").val("12th Grade Passage Generation Complete!");
+		$("#LoadingLabel").html("12th Grade Passage Generation Complete!");
 		$("#results").toggle();
 		
 		$(".progress-bar").animate({
 			width: "30%"
 		}, 100);
 
-		$("#LoadingLabel").val("Extracting Keywords...");
+		$("#LoadingLabel").html("Extracting Keywords...");
 		
 		// extract keywords from text
 		keywords = extract(passage_set1,{
@@ -141,20 +141,20 @@ async function begin()
 
 		keywords.push(topic);
 
-		$("#LoadingLabel").val("Keyword Generation Complete!");
+		$("#LoadingLabel").html("Keyword Generation Complete!");
 		
 		$(".progress-bar").animate({
 			width: "60%"
 		}, 100);
 
-		$("#LoadingLabel").val("Generating 8th Grade Passages...");
+		$("#LoadingLabel").html("Generating 8th Grade Passages...");
 		
 		// make call to get 8th grade level passages
 		passage_set2 = await generate_passages(topic,8, keywords.join(","));
 		
 		updatePage(8, passage_set2);
 
-		$("#LoadingLabel").val("8th Grade Passage Generation Complete!");
+		$("#LoadingLabel").html("8th Grade Passage Generation Complete!");
 		
 		$(".progress-bar").animate({
 			width: "100%"
@@ -170,7 +170,7 @@ async function begin()
 	else{	
 	
 	// grab key words from provided passage
-		$("#LoadingLabel").val("Extracting keywords from provided passage(s)...");
+		$("#LoadingLabel").html("Extracting keywords from provided passage(s)...");
 		
 		keywords = extract(passage,{
 				language:"english",
@@ -179,7 +179,7 @@ async function begin()
 				remove_duplicates: false
 			});
 
-		$("#LoadingLabel").val("Keyword Extraction Complete!");
+		$("#LoadingLabel").html("Keyword Extraction Complete!");
 		
 		$(".progress-bar").animate({
 			width: "10%"
@@ -187,21 +187,21 @@ async function begin()
 
 		topic = keywords.join(",")
 
-		$("#LoadingLabel").val("Loading 12th Grade Passages...");
+		$("#LoadingLabel").html("Loading 12th Grade Passages...");
 		
 		// make call to get 12th grade level passages
 		passage_set1 = await generate_passages(topic, 12);
 
 		updatePage(12, passage_set1);
 		
-		$("#LoadingLabel").val("12th Grade Passage Generation Complete!");
+		$("#LoadingLabel").html("12th Grade Passage Generation Complete!");
 		$("#results").toggle();
 		
 		$(".progress-bar").animate({
 			width: "30%"
 		}, 100);
 
-		$("#LoadingLabel").val("Extracting keywords from 12th grade passages...");
+		$("#LoadingLabel").html("Extracting keywords from 12th grade passages...");
 		
 		// extract keywords from text
 		keywords = extract(passage_set1,{
@@ -211,14 +211,14 @@ async function begin()
 				remove_duplicates: false
 			});
 
-		$("#LoadingLabel").val("Keyword Extraction Complete!");
+		$("#LoadingLabel").html("Keyword Extraction Complete!");
 		
 		$(".progress-bar").animate({
 			width: "60%"
 		}, 100);
 
 
-		$("#LoadingLabel").val("Loading 8th Grade Passages...");
+		$("#LoadingLabel").html("Loading 8th Grade Passages...");
 		
 		// make call to get 8th grade level passages
 		passage_set2 = await generate_passages(topic, 8, keywords.join(","));
