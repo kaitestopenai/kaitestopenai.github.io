@@ -89,7 +89,7 @@ function reset()
 	$("#syllables_12").html("");
 	$("#api_calls_12").html("");
 	
-	
+	$("#LoadingLabel").val("");
 		
 	
 }
