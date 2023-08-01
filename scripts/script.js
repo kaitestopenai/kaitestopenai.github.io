@@ -37,24 +37,26 @@ var key2 = "FJbuJfKqkTCB9QGa2Qhoun";
 
 
 // update passage/results table
-function updatePage(passage1, passage2){
-	
-	// set 8th grade data
-	$("#passage1_8").html(passage1);
-	$("#fka_score_8").html(fkra_data_8.score);
-	$("#sentences_8").html(fkra_data_8.sentences);
-	$("#words_8").html(fkra_data_8.words);
-	$("#syllables_8").html(fkra_data_8.syllables);
-	$("#api_calls_8").html(api_calls_8);
-	
-	// set 12th grade data
-	$("#passage1_12").html(passage2);
-	$("#fka_score_12").html(fkra_data_12.score);
-	$("#sentences_12").html(fkra_data_12.sentences);
-	$("#words_12").html(fkra_data_12.words);
-	$("#syllables_12").html(fkra_data_12.syllables);
-	$("#api_calls_12").html(api_calls_12);
-			
+function updatePage(grade, passage){
+
+	if(grade == 8){
+		// set 8th grade data
+		$("#passage1_8").html(passage);
+		$("#fka_score_8").html(fkra_data_8.score);
+		$("#sentences_8").html(fkra_data_8.sentences);
+		$("#words_8").html(fkra_data_8.words);
+		$("#syllables_8").html(fkra_data_8.syllables);
+		$("#api_calls_8").html(api_calls_8);
+	}
+	else{
+		// set 12th grade data
+		$("#passage1_12").html(passage);
+		$("#fka_score_12").html(fkra_data_12.score);
+		$("#sentences_12").html(fkra_data_12.sentences);
+		$("#words_12").html(fkra_data_12.words);
+		$("#syllables_12").html(fkra_data_12.syllables);
+		$("#api_calls_12").html(api_calls_12);
+	}	
 }
 
 // clear values
@@ -112,13 +114,22 @@ async function begin()
 	var keywords;
 	
 	if(type == "Topic"){
+
+		$("#LoadingLabel").val("Loading 12th Grade Passages...");
 		
 		// make call to get 12th grade level passages
 		passage_set1 = await generate_passages(topic, 12);
-	
+
+		updatePage(12, passage_set1);
+		
+		$("#LoadingLabel").val("12th Grade Passage Generation Complete!");
+		$("#results").toggle();
+		
 		$(".progress-bar").animate({
 			width: "30%"
-		}, 500);
+		}, 100);
+
+		$("#LoadingLabel").val("Extracting Keywords...");
 		
 		// extract keywords from text
 		keywords = extract(passage_set1,{
@@ -127,26 +138,30 @@ async function begin()
 				return_changed_case:true,
 				remove_duplicates: false
 			});
-		
+
 		keywords.push(topic);
+
+		$("#LoadingLabel").val("Keyword Generation Complete!");
 		
 		$(".progress-bar").animate({
 			width: "60%"
-		}, 500);
+		}, 100);
+
+		$("#LoadingLabel").val("Generating 8th Grade Passages...");
 		
 		// make call to get 8th grade level passages
 		passage_set2 = await generate_passages(topic,8, keywords.join(","));
 		
-		
-		updatePage(passage_set1, passage_set2);
+		updatePage(8, passage_set2);
+
+		$("#LoadingLabel").val("8th Grade Passage Generation Complete!");
 		
 		$(".progress-bar").animate({
 			width: "100%"
 		}, 500)
 		.promise().done(function () {
 			
-			$(".progress-container").toggle();
-			$("#results").toggle();
+			$(".progress-container").toggle();			
 			loading = false;
 		})
 		
@@ -155,25 +170,38 @@ async function begin()
 	else{	
 	
 	// grab key words from provided passage
+		$("#LoadingLabel").val("Extracting keywords from provided passage(s)...");
+		
 		keywords = extract(passage,{
 				language:"english",
 				remove_digits: true,
 				return_changed_case:true,
 				remove_duplicates: false
 			});
-			
+
+		$("#LoadingLabel").val("Keyword Extraction Complete!");
+		
 		$(".progress-bar").animate({
 			width: "10%"
 		}, 500);
 
 		topic = keywords.join(",")
+
+		$("#LoadingLabel").val("Loading 12th Grade Passages...");
 		
 		// make call to get 12th grade level passages
 		passage_set1 = await generate_passages(topic, 12);
-	
+
+		updatePage(12, passage_set1);
+		
+		$("#LoadingLabel").val("12th Grade Passage Generation Complete!");
+		$("#results").toggle();
+		
 		$(".progress-bar").animate({
 			width: "30%"
-		}, 500);
+		}, 100);
+
+		$("#LoadingLabel").val("Extracting keywords from 12th grade passages...");
 		
 		// extract keywords from text
 		keywords = extract(passage_set1,{
@@ -182,23 +210,27 @@ async function begin()
 				return_changed_case:true,
 				remove_duplicates: false
 			});
+
+		$("#LoadingLabel").val("Keyword Extraction Complete!");
 		
 		$(".progress-bar").animate({
 			width: "60%"
-		}, 500);
+		}, 100);
+
+
+		$("#LoadingLabel").val("Loading 8th Grade Passages...");
 		
 		// make call to get 8th grade level passages
 		passage_set2 = await generate_passages(topic, 8, keywords.join(","));
 		
-		updatePage(passage_set1, passage_set2);
+		updatePage(8, passage_set2);
 		
 		$(".progress-bar").animate({
 			width: "100%"
-		}, 500)
+		}, 100)
 		.promise().done(function () {
 			
-			$(".progress-container").toggle();
-			$("#results").toggle();
+			$(".progress-container").toggle();			
 			loading = false;
 		})
 		
