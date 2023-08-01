@@ -135,7 +135,7 @@ async function begin()
 		}, 500);
 		
 		// make call to get 8th grade level passages
-		passage_set2 = await generate_passages(keywords.join("-"),8);
+		passage_set2 = await generate_passages(topic,8, keywords.join(","));
 		
 		
 		updatePage(passage_set1, passage_set2);
@@ -165,9 +165,11 @@ async function begin()
 		$(".progress-bar").animate({
 			width: "10%"
 		}, 500);
+
+		topic = keywords.join(",")
 		
 		// make call to get 12th grade level passages
-		passage_set1 = await generate_passages(keywords.join("-"), 12);
+		passage_set1 = await generate_passages(topic, 12);
 	
 		$(".progress-bar").animate({
 			width: "30%"
@@ -186,7 +188,7 @@ async function begin()
 		}, 500);
 		
 		// make call to get 8th grade level passages
-		passage_set2 = await generate_passages(keywords.join("-"),8);
+		passage_set2 = await generate_passages(topic, 8, keywords.join(","));
 		
 		updatePage(passage_set1, passage_set2);
 		
@@ -205,9 +207,8 @@ async function begin()
 	
 }
 
-async function generate_passages(topic, grade, passage=false) {
+async function generate_passages(topic, grade, keywords="") {
 	var selected = $('#Type').val();
-	//var passage = $("#passage").val();
 	var prompt;
 	var response;
 	var keywords;
@@ -216,18 +217,17 @@ async function generate_passages(topic, grade, passage=false) {
 	var number_words;
 	var fkra;
 	
-
-	prompt = "Generate a cohesive passage with four parts and no redundancy. Each part should be approximately 75 words. Each part should be able to stand alone. In each part add one little known fact or idea that would be useful for later comprehension questions to test the reader. All text must be at " + grade + "th grade reading level, as measured by the Flesch-Kincaid Grade Level formula. The topic should be " + topic + " \n\n###\n\n";
-
 	
 	if(grade == 12){
+		prompt = "Generate a cohesive passage with four parts and no redundancy. Each part should be approximately 75 words. Each part should be able to stand alone. In each part add one little known fact or idea that would be useful for later comprehension questions to test the reader. All text must be at " + grade + "th grade reading level, as measured by the Flesch-Kincaid Grade Level formula. The topic should be " + topic + " \n\n###\n\n";
+
 		response = await fetch('https://api.openai.com/v1/completions', {
 			method: 'POST',
 			body: JSON.stringify({
 				model: "davinci:ft-sawyer-laboratories:new-test-2023-06-23-15-15-58",
 				prompt: prompt,
 				temperature: 1,
-				max_tokens: 380,
+				max_tokens: 400,
 				top_p: 1.0,
 				frequency_penalty: 0.0,
 				presence_penalty: 0.0,
@@ -244,13 +244,17 @@ async function generate_passages(topic, grade, passage=false) {
 		
 		myJson = await response.json(); //extract JSON from the http response
 		text = myJson.choices[0].text;
+
+		for(var i = 1; i < 5; i++){
+			text = text.replace(i + ")","\n");
+		}
 				
 		number_words = text.split(' ').filter(function (el) {
 			return el != "";
 		}).length;
 		
 		
-		if(FKRA_calculator(text, grade) < 13 && FKRA_calculator(text, grade) > 11.5  && number_words > 280 && number_words < 320){
+		if(FKRA_calculator(text, grade) < 13 && FKRA_calculator(text, grade) > 11.5  && number_words > 260 && number_words < 340){
 			return text;
 		}
 		else{
@@ -259,13 +263,14 @@ async function generate_passages(topic, grade, passage=false) {
 		
 	}
 	else{
+		prompt = "Topic: " + topic + "\n Keywords: " + keywords + "\n Generate a cohesive passage that consists of four distinct parts, each containing approximately 75 words. Avoid redundancy, and ensure that each part can stand alone as a coherent segment. Additionally, incorporate one little-known fact or idea in each part, which will be beneficial for later comprehension questions to test the reader's understanding. The entire passage must adhere to an 8th-grade reading level, as determined by the Flesch-Kincaid Grade Level formula. \n\n###\n\n";
 		response = await fetch('https://api.openai.com/v1/completions', {
 			method: 'POST',
 			body: JSON.stringify({
-				model: "davinci:ft-sawyer-laboratories:grade-8-second-attempt-2023-07-19-20-27-07",
+				model: "davinci:ft-sawyer-laboratories:grade-8-fifth-attempt-2023-08-01-17-22-43",
 				prompt: prompt,
 				temperature: 1,
-				max_tokens: 380,
+				max_tokens: 400,
 				top_p: 1.0,
 				frequency_penalty: 0.0,
 				presence_penalty: 0.0,
@@ -282,17 +287,21 @@ async function generate_passages(topic, grade, passage=false) {
 		
 		myJson = await response.json(); //extract JSON from the http response
 		text = myJson.choices[0].text;
-				
+
+		for(var i = 1; i < 5; i++){
+			text = text.replace(i + ")","\n");
+		}
+		
 		number_words = text.split(' ').filter(function (el) {
 			return el != "";
 		}).length;
 		
 		
-		if(FKRA_calculator(text, grade) < 9 && FKRA_calculator(text, grade) > 7.5  && number_words > 280 && number_words < 320){
+		if(FKRA_calculator(text, grade) < 9 && FKRA_calculator(text, grade) > 7.5  && number_words > 260 && number_words < 340){
 			return text;
 		}
 		else{
-			return await generate_passages(topic, 8);
+			return await generate_passages(topic, 8, keywords);
 		}
 	}
 			
@@ -345,12 +354,12 @@ function FKRA_calculator(passage, grade) {
 	// keep data if it is within acceptable bounds
 	if(grade == 12)
 	{
-		if((Math.round(fkra * 10) / 10) < 13 && (Math.round(fkra * 10) / 10) > 11.5  && number_words > 280 && number_words < 320 ){
+		if((Math.round(fkra * 10) / 10) < 13 && (Math.round(fkra * 10) / 10) > 11.5  && number_words > 260 && number_words < 340 ){
 			fkra_data_12 = {sentences:number_sentences, words: number_words, syllables:number_syllables, score: fkra};
 		}
 	}
 	else{
-		if((Math.round(fkra * 10) / 10) < 9 && (Math.round(fkra * 10) / 10) > 7.5  && number_words > 280 && number_words < 320 ){
+		if((Math.round(fkra * 10) / 10) < 9 && (Math.round(fkra * 10) / 10) > 7.5  && number_words > 260 && number_words < 340 ){
 			fkra_data_8 = {sentences:number_sentences, words: number_words, syllables:number_syllables, score: fkra};
 		}
 	}
