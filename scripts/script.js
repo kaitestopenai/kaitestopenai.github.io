@@ -250,7 +250,7 @@ async function generate_passages(topic, grade, passage=false) {
 		}).length;
 		
 		
-		if(FKRA_calculator(text, grade) < 13 && FKRA_calculator(text, grade) > 12  && number_words > 280 && number_words < 320){
+		if(FKRA_calculator(text, grade) < 13 && FKRA_calculator(text, grade) > 11.5  && number_words > 280 && number_words < 320){
 			return text;
 		}
 		else{
