@@ -241,7 +241,8 @@ async function generate_passages(topic, grade) {
 				Jacopo:topic
 			}), 
 			headers: {
-		            'Content-Type': 'application/json'
+		            	'Content-Type': 'application/json',
+				'Accept':'*/*'
 		        }
 		});
 		
@@ -278,7 +279,8 @@ async function generate_passages(topic, grade) {
 
 			}), // string or object
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Accept':'*/*'
 			}
 		});
 		
