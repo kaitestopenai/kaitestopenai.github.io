@@ -235,7 +235,7 @@ async function generate_passages(topic, grade) {
 	if(grade == 12){
 		prompt = "Generate a cohesive passage with four parts and no redundancy. Each part should be approximately 75 words. Each part should be able to stand alone. In each part add one little known fact or idea that would be useful for later comprehension questions to test the reader. All text must be at " + grade + "th grade reading level, as measured by the Flesch-Kincaid Grade Level formula. The topic should be " + topic + " \n\n###\n\n";
 
-		response = await fetch('https://api.openai.com/v1/completions', {
+		response = await fetch('https://demo-adobe-de2576d8602d.herokuapp.com', {
 			method: 'POST',
 			body: JSON.stringify({
 				Jacopo:topic
@@ -270,7 +270,7 @@ async function generate_passages(topic, grade) {
 		
 	}
 	else{
-		response = await fetch('https://api.openai.com/v1/completions', {
+		response = await fetch('https://demo-adobe-de2576d8602d.herokuapp.com/8grade', {
 			method: 'POST',
 			body: JSON.stringify({
 				Jacopo:topic,
