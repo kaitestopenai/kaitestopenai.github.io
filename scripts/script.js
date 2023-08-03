@@ -250,7 +250,7 @@ async function generate_passages(topic, grade) {
 		api_calls_12 = api_calls_12 + 1;
 		
 		myJson = await response.json(); //extract JSON from the http response
-		text = myJson.choices[0].text;
+		text = myJson.choices[0].response;
 		
 		//for(var i = 1; i < 5; i++){
 		//	text = text.replace(i + ")","<br><br>");
@@ -289,7 +289,7 @@ async function generate_passages(topic, grade) {
 		api_calls_8 = api_calls_8 + 1;
 		
 		myJson = await response.json(); //extract JSON from the http response
-		text = myJson.choices[0].text;
+		text = myJson.choices[0].response;
 
 		//for(var i = 1; i < 5; i++){
 		//	text = text.replace(i + ")","<br><br>");
