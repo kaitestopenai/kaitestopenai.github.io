@@ -243,7 +243,7 @@ async function generate_passages(topic, grade) {
 			headers: {
 		            	'Content-Type': 'application/json',
 				'Accept':'*/*',
-				"Access-Control-Allow-Origin", "*"
+				'Access-Control-Allow-Origin':'*'
 		        }
 		});
 		
@@ -282,7 +282,7 @@ async function generate_passages(topic, grade) {
 			headers: {
 				'Content-Type': 'application/json',
 				'Accept':'*/*',
-				"Access-Control-Allow-Origin", "*"
+				'Access-Control-Allow-Origin':'*'
 			}
 		});
 		
