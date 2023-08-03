@@ -140,7 +140,7 @@ async function begin()
 		$("#LoadingLabel").html("Generating 8th Grade Passages...");
 		
 		// make call to get 8th grade level passages
-		passage_set2 = await generate_passages(topic,8, keywords.join(","));
+		passage_set2 = await generate_passages(topic,8, global_keywords.join(","));
 		
 		updatePage(8, passage_set2);
 
